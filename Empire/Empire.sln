@@ -70,8 +70,8 @@ Global
 		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Debug|x64.Build.0 = Win7 Debug|x64
 		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Debug|x64.Deploy.0 = Win7 Debug|x64
 		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Any CPU.ActiveCfg = Win7 Release|Win32
-		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Mixed Platforms.ActiveCfg = Win7 Release|Win32
-		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Mixed Platforms.Build.0 = Win7 Release|Win32
+		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Mixed Platforms.ActiveCfg = Win7 Release|x64
+		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Mixed Platforms.Build.0 = Win7 Release|x64
 		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Win32.ActiveCfg = Win7 Release|Win32
 		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|Win32.Build.0 = Win7 Release|Win32
 		{DCEC27DD-9DFF-493C-AB0E-801BB5430CC9}.Win7 Release|x64.ActiveCfg = Win7 Release|x64

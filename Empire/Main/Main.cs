@@ -13,7 +13,8 @@ namespace Main
     public partial class Form1 : Form
     {
         public int PID { get; set; }
-
+        public string Value_Type_Text { get; set; }
+        public int Value_Type { get; set; }
         [DllImport("kernel32.dll", EntryPoint = "LoadLibrary")]
         static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpLibFileName);
 
@@ -71,7 +72,24 @@ namespace Main
             //
             //Console.WriteLine(Convert.ToUInt64(textBox2.Text,16));
 
+            ComboboxItem item = new ComboboxItem();
+            item.Text = "4 Bytes";
+            item.Value = 4;
 
+            comboBox1.Items.Add(item);
+
+            item = new ComboboxItem();
+            item.Text = "1 Bytes";
+            item.Value = 1;
+
+            comboBox1.Items.Add(item);
+
+            comboBox1.SelectedIndex=0;
+
+            //comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+
+            
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -85,7 +103,9 @@ namespace Main
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            Value_Type = Convert.ToInt32((comboBox1.SelectedItem as ComboboxItem).Value);
+            Value_Type_Text = (comboBox1.SelectedItem as ComboboxItem).Value.ToString();
+            //Console.WriteLine(Value_Type.ToString());
 
         }
 
@@ -111,7 +131,7 @@ namespace Main
 
 
 
-                    ReadProcessMemory((UInt64)PID, Convert.ToUInt64(textBox2.Text,16), 4, (IntPtr)buffer);
+                    ReadProcessMemory((UInt64)PID, Convert.ToUInt64(textBox2.Text, 16), (UInt16)Value_Type, (IntPtr)buffer);
 
                     //MessageBox.Show(buffer );
                     MessageBox.Show((*(UInt32*)buffer).ToString());
@@ -150,10 +170,17 @@ namespace Main
                     IntPtr WPMaddr = GetProcAddress((int)hModule, "WPM");
                     WPM WriteProcessMemory = (WPM)Marshal.GetDelegateForFunctionPointer(WPMaddr, typeof(WPM));
 
-                    Memory.memcpy(buffer, textBox1.Text, 4);
-                    //Memory.Copy( (void *)Convert.ToUInt32(textBox1.Text)  , (void*)buffer, 4);
-                    Console.WriteLine((*(UInt32*)buffer));
-                    WriteProcessMemory((UInt64)PID, Convert.ToUInt64(textBox2.Text, 16), 4, (IntPtr)buffer);
+                   // Memory.memcpy(buffer, , 4);
+
+                   // Memory.Copy((void*)String.Format("{0:X08}", Convert.ToInt32(textBox1.Text, 10)), (void*)buffer, 4);
+
+                   //String.Format("{0:X08}", Convert.ToInt32(textBox1.Text, 10))
+
+                    //Console.WriteLine(String.Format("{0:X08}", Convert.ToInt32(textBox1.Text, 10)));
+
+                    *(UInt32 *)buffer = Convert.ToUInt32(textBox1.Text, 10);
+                    //String.Format("{0:00000000}",Convert.ToInt32(textBox1.Text, 10).ToString("X"))
+                    WriteProcessMemory((UInt64)PID, Convert.ToUInt64(textBox2.Text, 16), (UInt16)Value_Type, (IntPtr)buffer);
 
                     //MessageBox.Show(buffer );
                     //MessageBox.Show((*(UInt32*)buffer).ToString());
@@ -174,6 +201,11 @@ namespace Main
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }
@@ -248,6 +280,15 @@ namespace Main
 
     }
 
-    
+    public class ComboboxItem
+    {
+        public string Text { get; set; }
+        public object Value { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
+        }
+    }
     
 }

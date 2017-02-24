@@ -1,80 +1,6 @@
 #include <Windows.h>
 #include <stdio.h>
 HANDLE kernel = 0;
-/*
-
-BYTE ao[512] = { 0x20, };
-DWORD k = CTL_CODE(FILE_DEVICE_UNKNOWN, 0x2000, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS);
-DWORD wr = CTL_CODE(FILE_DEVICE_UNKNOWN, 0x2001, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS);
-DWORD k3 = CTL_CODE(FILE_DEVICE_UNKNOWN, 0x2002, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS);
-result = CreateFileW(L"\\\\.\\Empire", 0xC0000000, 3u, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-//if ((int)result != -1){
-printf("Val=%d\n", result);
-
-
-i.processid = 0x1bc8;
-i.startaddress = 0x5bc000;
-i.bytestoread = 4;
-
-j.processid = 0x1bc8;
-j.startaddress = 0x5bc000;
-j.bytestoread = 8;
-printf("%d\n", sizeof(input));
-
-
-
-
-//memset(&j, 4, 512);
-
-memcpy(ao, &j, sizeof(input));
-memset(ao + sizeof(input), 0x90, 8);
-
-
-//DeviceIoControl(result,k, (LPVOID)&i, sizeof(i), (LPVOID)&OutBuffer, 4,  &BytesReturned, 0);
-
-//printf("memory: %d\n", OutBuffer);
-
-printf("%d\n", DeviceIoControl(result, wr, (LPVOID)&ao, 512, (LPVOID)&ao, 512, &BytesReturned, 0));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include <Windows.h>
-#include <stdio.h>
-
-
-
-int main()
-{
-if (LoadDriver()){
-printf("Loaded the driver successfully!\n");
-printf("Press ENTER to unload the driver: ");
-getchar();
-if (UnloadDriver()) printf("Unloaded the driver successfully!\n");
-else printf("Failed to unload the driver!\n");
-}
-else printf("Failed to load the driver!\n");
-
-
-return 0;
-}
-
-
-
-*/
 
 //extern __declspec(dllimport) bool test();
 
@@ -125,7 +51,7 @@ BOOL LoadDriver(){
 	return TRUE;
 }
 
-// 드라이버를 언로드하는 함수
+
 BOOL UnloadDriver(){
 	SC_HANDLE hSCM;
 	SC_HANDLE hService;
@@ -204,7 +130,7 @@ extern "C" __declspec(dllexport) BOOL WPM(UINT64 pid, UINT64 startaddress, WORD 
 
 extern "C"  __declspec(dllexport) BOOL RPM(UINT64 pid, UINT64 startaddress, WORD bytestoread, DWORD *r)
 {
-	DWORD BytesReturned;
+	DWORD BytesReturned=1;
 	DWORD OutBuffer[512];
 	struct input
 	{
@@ -221,11 +147,7 @@ extern "C"  __declspec(dllexport) BOOL RPM(UINT64 pid, UINT64 startaddress, WORD
 	
 
 	DeviceIoControl(kernel,cc, (LPVOID)&i, sizeof(i), (LPVOID)r, bytestoread,  &BytesReturned, 0);
-
-
-
-	//printf("memory: %d\n", OutBuffer);
-
+	
 	
 
 

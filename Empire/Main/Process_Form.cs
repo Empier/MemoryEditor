@@ -47,9 +47,22 @@ namespace Main
         private void button1_Click(object sender, EventArgs e)
         {
             //MessageBox.Show(listBox1.SelectedItem.ToString());
-           
-            this.PID = allProc[listBox1.SelectedIndex].Id;
-            this.Close();
+            int i = 0;
+            foreach (Process p in allProc)
+            {
+                if(allProc[i].ProcessName=="notepad")
+                {
+                    this.PID = allProc[i].Id;
+                    this.Close();
+                    break;
+
+                }
+                i++;
+            }
+
+           // this.PID = allProc[listBox1.SelectedIndex].Id;
+           // this.Close();
+            
         }
     }
 }
