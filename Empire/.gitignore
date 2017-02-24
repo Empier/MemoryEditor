@@ -1,0 +1,8 @@
+# 로 시작하는건 코멘트
+_
+# 하위디렉토리를 포함한 hoge.dcu 등의 파일을 무시
+*.exe
+bin/
+Main/obj/
+Empire_DLL/Release/
+Empire/x64/
