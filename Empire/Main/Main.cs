@@ -88,7 +88,17 @@ namespace Main
 
             //comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
 
-            
+            listView1.View = View.Details;
+            listView1.GridLines = true;
+            listView1.FullRowSelect = true;
+            listView1.Columns.Add("Address", 100);
+            listView1.Columns.Add("ScanValue", 70);
+            //listView1.Columns.Add("Quantity", 70);
+
+
+           // listView1.View = View.Details;
+           // listView1.GridLines = true;
+           // listView1.FullRowSelect = true;
            
         }
 
@@ -129,12 +139,33 @@ namespace Main
                     IntPtr WPMaddr = GetProcAddress((int)hModule, "WPM");
                     WPM WriteProcessMemory = (WPM)Marshal.GetDelegateForFunctionPointer(WPMaddr, typeof(WPM));
 
+                    UInt64 startmemory= Convert.ToUInt64(textBox2.Text, 16);
+                    UInt64 endmemory= Convert.ToUInt64(textBox3.Text, 16);
+                    UInt32 scanvalue=Convert.ToUInt32(textBox1.Text, 10);
+
+                    Console.WriteLine("Go");
+                    for (UInt32 off = 0; (startmemory + off) < endmemory; off += 1)
+                    {
+                        ReadProcessMemory((UInt64)PID, startmemory+off, (UInt16)Value_Type, (IntPtr)buffer);
+                        //Console.WriteLine((*(UInt32*)buffer).ToString()+" "+scanvalue);
+                        if(scanvalue==*(UInt32*)buffer)
+                        {
+                        //    Console.WriteLine("yeee");
+
+                          //  Console.WriteLine("pp:");
+                            string[] row = { (startmemory+off).ToString("X"),scanvalue.ToString() };
+                            
+                            
+                            var listViewItem = new ListViewItem(row);
 
 
-                    ReadProcessMemory((UInt64)PID, Convert.ToUInt64(textBox2.Text, 16), (UInt16)Value_Type, (IntPtr)buffer);
+                            listView1.Items.Add(listViewItem);
 
+                        }
+                    }
+                    Console.WriteLine("End");
                     //MessageBox.Show(buffer );
-                    MessageBox.Show((*(UInt32*)buffer).ToString());
+                    //MessageBox.Show((*(UInt32*)buffer).ToString());
                     //WriteProcessMemory((UInt64)PID, 0x00400000, 3);
 
                     //MessageBox.Show(buffer[0]
@@ -206,6 +237,11 @@ namespace Main
         private void button4_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

@@ -50,7 +50,7 @@ namespace Main
             int i = 0;
             foreach (Process p in allProc)
             {
-                if(allProc[i].ProcessName=="notepad")
+                if(allProc[i].ProcessName=="calc")
                 {
                     this.PID = allProc[i].Id;
                     this.Close();
