@@ -1,0 +1,16 @@
+TraceEvent:	Verbose  : 05/02/2018 18:14:34
+TraceEvent:	Verbose  : Validating specified root directories.
+TraceEvent:	Verbose  : Adding specified solutions.
+TraceEvent:	Verbose  : The solution "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire.sln" with full path "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire.sln" was added to the list of solutions to upgrade.
+TraceEvent:	Verbose  : Adding solutions found under the specified root directories.
+TraceEvent:	Verbose  : Adding specified projects.
+TraceEvent:	Verbose  : Adding projects found under the specified solutions.
+TraceEvent:	Verbose  : The project with full path "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire\Empire.vcxproj" was referenced by solution "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire.sln" and added to the list of projects to upgrade.
+TraceEvent:	Verbose  : The project with full path "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire_DLL\Empire_DLL.vcxproj" was referenced by solution "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire.sln" and added to the list of projects to upgrade.
+TraceEvent:	Verbose  : Adding projects found under the specified root directories.
+TraceEvent:	Information  : Upgrading projects.
+TraceEvent:	Information  : Backup created at: C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire\Empire.vcxproj.backup.
+TraceEvent:	Information  : Upgrading project "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire\Empire.vcxproj".
+TraceEvent:	Information  : Upgrade complete for project "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire\Empire.vcxproj".
+TraceEvent:	Information  : Project file "C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\Empire_DLL\Empire_DLL.vcxproj" is not a WDK project. Skipping project file.
+TraceEvent:	Information  : Projects upgraded.
