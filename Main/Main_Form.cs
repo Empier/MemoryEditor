@@ -74,13 +74,20 @@ namespace Main
 
             //comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
 
+            /*
             listView1.View = View.Details;
             listView1.GridLines = true;
             listView1.FullRowSelect = true;
-            listView1.Columns.Add("Address", 100);
-            listView1.Columns.Add("ScanValue", 70);
+            listView1.Columns.Add("Address", 80);
+            listView1.Columns.Add("Value", 70);
+            */
+            
             //listView1.Columns.Add("Quantity", 70);
 
+
+
+
+            
 
             // listView1.View = View.Details;
             // listView1.GridLines = true;
@@ -90,9 +97,10 @@ namespace Main
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Process_Form settingsForm = new Process_Form();
-            var k = settingsForm.ShowDialog(this);
-            PID = settingsForm.PID;
+            Process_Form processForm = new Process_Form();
+            var k = processForm.ShowDialog(this);
+            PID = processForm.PID;
+            label4.Text = processForm.PNAME;
             //SuspendLayout();
         }
 
@@ -203,6 +211,16 @@ namespace Main
 
         }
 
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            Settings_Form settingsForm = new Settings_Form();
+            var k = settingsForm.ShowDialog(this);
+        }
+
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

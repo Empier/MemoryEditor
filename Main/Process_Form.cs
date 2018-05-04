@@ -14,6 +14,7 @@ namespace Main
     {
         Process[] allProc;
         public int PID { get; set; }
+        public string PNAME { get; set; }
         //public string ReturnValue2 { get; set; }
 
 
@@ -61,6 +62,7 @@ namespace Main
             }
              */
             this.PID = allProc[listBox1.SelectedIndex].Id;
+            this.PNAME = allProc[listBox1.SelectedIndex].ProcessName;
             this.Close();
             
         }

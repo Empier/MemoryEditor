@@ -1,4 +1,6 @@
-# What is it?
+# Memory Editor
+<img src="Images/Main_Form.png" width="265"/>
+
 The goal is to implement the Cheat Engine via C#
 
 To start the program, run Main.exe.
@@ -9,9 +11,7 @@ To start the program, run Main.exe.
 
 - Driver: Driver Test Signing
 
-[Change Log Link](-)
-
-[YouTube Link](-)
+[Change Log Link](https://github.com/Empier/MemoryEditor/ChangeLog.txt)
 
 ######################################
 
