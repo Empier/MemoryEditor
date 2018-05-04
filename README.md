@@ -11,7 +11,7 @@ To start the program, run Main.exe.
 
 - Driver: Driver Test Signing
 
-[Change Log Link](https://github.com/Empier/MemoryEditor/ChangeLog.txt)
+[Change Log Link](https://github.com/Empier/MemoryEditor/blob/master/ChangeLog.txt)
 
 ######################################
 
