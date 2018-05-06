@@ -98,6 +98,12 @@
     <Compile Include="Settings_Form.Designer.cs">
       <DependentUpon>Settings_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="VEdit_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VEdit_Form.Designer.cs">
+      <DependentUpon>VEdit_Form.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="About_Form.resx">
       <DependentUpon>About_Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +125,9 @@
     </Compile>
     <EmbeddedResource Include="Settings_Form.resx">
       <DependentUpon>Settings_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VEdit_Form.resx">
+      <DependentUpon>VEdit_Form.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

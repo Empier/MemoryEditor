@@ -112,6 +112,8 @@ namespace Main
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+
             listView1.Items.Clear();
             unsafe
             {
@@ -163,9 +165,10 @@ namespace Main
         {
             unsafe
             {
+                
                 //progressBar1.PerformStep();
                 byte* buffer = (byte*)Memory.Alloc(512);
-
+                
                 {
                     /*
                     IntPtr hModule = LoadLibrary("Empire.dll");
@@ -208,6 +211,7 @@ namespace Main
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
 
         }
 
@@ -220,6 +224,76 @@ namespace Main
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+      
+
+      
+
+        private void ListView1_Click_Event(object sender, EventArgs e)
+        {
+
+            if (listView1.SelectedItems.Count == 1)
+            {
+                ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                ListViewItem lvItem = items[0];
+                string addr = lvItem.SubItems[0].Text;
+                string value = lvItem.SubItems[1].Text;
+                string[] row = { "", addr, value, "de", "No Description" };
+
+                listView2.Items.Add(new ListViewItem(row));
+            }
+
+
+        }
+
+        private void listView2_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            
+            //e.
+            /*
+            if (listView2.SelectedItems.Count == 1)
+            {
+                ListView.SelectedListViewItemCollection items = listView2.SelectedItems;
+                ListViewItem lvItem = items[0];
+                string addr = lvItem.SubItems[1].Text;
+                // string value = lvItem.SubItems[1].Text;
+                // string[] row = { "", addr, value, "de", "No Description" };
+                Console.WriteLine(addr);
+                //listView2.Items.Add(new ListViewItem(row));
+            }
+            */
+        }
+
+        private void listView2_ColumnReordered(object sender, ColumnReorderedEventArgs e)
+        {
+            //MessageBox.Show("BBB");
+        }
+
+        private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+      
+            ListViewHitTestInfo hitTest = listView2.HitTest(e.X,e.Y);
+            int columnIndex = hitTest.Item.SubItems.IndexOf(hitTest.SubItem);
+            if(columnIndex == 2)
+            {
+                VEdit_Form veditForm = new VEdit_Form();
+                DialogResult k = veditForm.ShowDialog(this);
+                if(k==DialogResult.OK)
+                {
+                    unsafe
+                    {
+                        byte* buffer = (byte*)Memory.Alloc(16);
+                        *(UInt32*)buffer = (UInt32)veditForm.VALUE;
+                        
+                        WPM((UInt64)PID, Convert.ToUInt64(listView2.FocusedItem.SubItems[1].Text,16), (UInt16)Value_Type, (IntPtr)buffer);
+                        
+                        Memory.Free(buffer);
+                    }
+                }
+            }
+      
+      
         }
     }
 
