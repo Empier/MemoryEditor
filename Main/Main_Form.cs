@@ -60,13 +60,19 @@ namespace Main
 
             ComboboxItem item = new ComboboxItem();
             item.Text = "4 Bytes";
-            item.Value = 4;
+            item.Value = 1;
 
             comboBox1.Items.Add(item);
 
             item = new ComboboxItem();
             item.Text = "1 Bytes";
-            item.Value = 1;
+            item.Value = 2;
+
+            comboBox1.Items.Add(item);
+
+            item = new ComboboxItem();
+            item.Text = "String";
+            item.Value = 3;
 
             comboBox1.Items.Add(item);
 
@@ -113,12 +119,11 @@ namespace Main
         private void button2_Click(object sender, EventArgs e)
         {
 
-
             listView1.Items.Clear();
             unsafe
             {
-                void* buffer = (byte*)Memory.Alloc(512);
-
+                void* buffer = (byte*)Memory.Alloc(100);
+                
 
                 //   try
                 {
@@ -130,27 +135,82 @@ namespace Main
 
                     UInt64 startmemory = Convert.ToUInt64(textBox2.Text, 16);
                     UInt64 endmemory = Convert.ToUInt64(textBox3.Text, 16);
-                    UInt32 scanvalue = Convert.ToUInt32(textBox1.Text, 10);
+                    UInt32 scanvalue = 0;
+                    int Value_Size=0;
 
+                    if (Value_Type==1)
+                    {
+                        scanvalue=Convert.ToUInt32(textBox1.Text, 10);
+                        Value_Size = 4;
+                    }
+                    else if(Value_Type==2)
+                    {
+                        scanvalue=Convert.ToUInt32(textBox1.Text, 10);
+                        Value_Size = 1;
+                    }
+                    else if(Value_Type==3)
+                    {
+
+                        Value_Size = textBox1.Text.Length;
+                        
+                    }
                     Console.WriteLine("Start");
                     for (UInt32 off = 0; (startmemory + off) < endmemory; off += 1)
                     {
-                        RPM((UInt64)PID, startmemory + off, (UInt16)Value_Type, (IntPtr)buffer);
+                        RPM((UInt64)PID, startmemory + off, (UInt16)Value_Size, (IntPtr)buffer);
                         //Console.WriteLine((*(UInt32*)buffer).ToString()+" "+scanvalue);
-                        if (scanvalue == *(UInt32*)buffer)
+
+                        if (Value_Type != 3)
                         {
-                            string[] row = { (startmemory + off).ToString("X"), scanvalue.ToString() };
+                           
+
+                            if (scanvalue == *(UInt32*)buffer)
+                            {
+                                string[] row = { (startmemory + off).ToString("X"), scanvalue.ToString() };
 
 
-                            var listViewItem = new ListViewItem(row);
+                                var listViewItem = new ListViewItem(row);
 
 
-                            listView1.Items.Add(listViewItem);
+                                listView1.Items.Add(listViewItem);
+
+                            }
+                        }
+                        else /*string*/
+                        {
+                            byte *ptr = (byte *)buffer ;
+                            int j = 0;
+                            // Console.WriteLine(Convert.ToString((*ptr).ToString())
+                            //     );
+
+                            for (int i = 0; i < textBox1.Text.Length; i++)
+                            {
+                                
+                                if (Convert.ToInt32(textBox1.Text[i])==Convert.ToInt32(((byte*)ptr)[i]))
+                                {
+                                    j++;
+                                    //Console.WriteLine((startmemory+off).ToString("X")+" "+j + " " + textBox1.Text.Length);
+                                    if(j== textBox1.Text.Length)
+                                    {
+                                        string[] row = { (startmemory + off).ToString("X"), textBox1.Text };
+
+                                        var listViewItem = new ListViewItem(row);
+
+                                        listView1.Items.Add(listViewItem);
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                           
 
                         }
                     }
                     Console.WriteLine("End");
-                  
+                    Memory.Free(buffer); 
                 }
                
             }
@@ -167,34 +227,12 @@ namespace Main
             {
                 
                 //progressBar1.PerformStep();
-                byte* buffer = (byte*)Memory.Alloc(512);
-                
+                byte* buffer = (byte*)Memory.Alloc(100);
                 {
-                    /*
-                    IntPtr hModule = LoadLibrary("Empire.dll");
-                    IntPtr RPMaddr = GetProcAddress((int)hModule, "RPM");
-                    RPM ReadProcessMemory = (RPM)Marshal.GetDelegateForFunctionPointer(RPMaddr, typeof(RPM));
-                    IntPtr WPMaddr = GetProcAddress((int)hModule, "WPM");
-                    WPM WriteProcessMemory = (WPM)Marshal.GetDelegateForFunctionPointer(WPMaddr, typeof(WPM));
-                    */
-
-
-                    // Memory.Copy((void*)String.Format("{0:X08}", Convert.ToInt32(textBox1.Text, 10)), (void*)buffer, 4);
-
-                    //String.Format("{0:X08}", Convert.ToInt32(textBox1.Text, 10))
-
-                    //Console.WriteLine(String.Format("{0:X08}", Convert.ToInt32(textBox1.Text, 10)));
-
-                    *(UInt32*)buffer = Convert.ToUInt32(textBox1.Text, 10);
-                    //String.Format("{0:00000000}",Convert.ToInt32(textBox1.Text, 10).ToString("X"))
-                    WPM((UInt64)PID, Convert.ToUInt64(textBox2.Text, 16), (UInt16)Value_Type, (IntPtr)buffer);
-
-                    //MessageBox.Show(buffer );
-                    //MessageBox.Show((*(UInt32*)buffer).ToString());
-                    //WriteProcessMemory((UInt64)PID, 0x00400000, 3);
-
-                    //MessageBox.Show(buffer[0]
-
+                   foreach(ListViewItem item in listView1.Items)
+                    {
+                        Console.WriteLine(item.Text);
+                    }
                 }
             }
         }
