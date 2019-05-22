@@ -160,7 +160,7 @@ extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD f
 	{
 	case DLL_PROCESS_ATTACH:
 		LoadDriver();
-		kernel = CreateFileW(L"\\\\.\\Empire", 0xC0000000, 3u, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+		kernel = CreateFileW(L"\\\\.\\Empire2", 0xC0000000, 3u, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 		
 		//if (LoadDriver()){
 		//	printf("Loaded the driver successfully!\n");
@@ -170,7 +170,7 @@ extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD f
 		break;
 
 	case DLL_PROCESS_DETACH:
-		//kernel = CreateFileW(L"\\\\.\\Empire", 0xC0000000, 3u, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+		//kernel = CreateFileW(L"\\\\.\\Empire2", 0xC0000000, 3u, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 
 		CloseHandle(kernel);

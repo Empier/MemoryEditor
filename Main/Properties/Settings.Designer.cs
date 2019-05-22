@@ -22,5 +22,17 @@ namespace Main.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int V {
+            get {
+                return ((int)(this["V"]));
+            }
+            set {
+                this["V"] = value;
+            }
+        }
     }
 }

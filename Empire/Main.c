@@ -168,7 +168,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegisterPath)
 	DbgPrint("___[Empire Kernel Load]___");
 	
 	
-	RtlInitUnicodeString(&deviceNameUnicodeString, L"\\Device\\Empire");
+	RtlInitUnicodeString(&deviceNameUnicodeString, L"\\Device\\Empire2");
 	Status = IoCreateDevice(DriverObject, 4, &deviceNameUnicodeString, FILE_DEVICE_UNKNOWN, 0, TRUE, &pMyDevice);
 	if (!NT_SUCCESS(Status))
 	{
@@ -176,7 +176,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegisterPath)
 		return Status;
 	}
 
-	RtlInitUnicodeString(&linkNameUnicodeString, L"\\DosDevices\\Empire");
+	RtlInitUnicodeString(&linkNameUnicodeString, L"\\DosDevices\\Empire2");
 	Status = IoCreateSymbolicLink(&linkNameUnicodeString, &deviceNameUnicodeString);
 	if (!NT_SUCCESS(Status))
 	{

@@ -23,48 +23,75 @@ namespace Main
             InitializeComponent();
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-          
-           // Process[] allProc = Process.GetProcesses();
-            
-           // listBox1.Items.Add(((TextBox)sender).Text);
-            //listBox1.Items.Add("1234");
-            //MessageBox.Show("asdf");
-        }
 
         private void Process_Form_Load(object sender, EventArgs e)
         {
             allProc = Process.GetProcesses();
-            foreach(Process p in allProc)
+          
+
+            ImageList Imagelist = new ImageList();
+
+            foreach (Process process in allProc)
             {
-                string k = p.Id.ToString() + "-" + p.ProcessName;
-                listBox1.Items.Add(k);
+                string[] row = {
+                    process.ProcessName,
+                    process.Id.ToString()
+                };
+  
+                try
+                {
+                    Imagelist.Images.Add(
+                        process.Id.ToString(),       
+                        Icon.ExtractAssociatedIcon(process.MainModule.FileName).ToBitmap()
+                    );
+                }
+                catch { }
+
+                 ListViewItem item = new ListViewItem(row)
+                {
+                     ImageIndex = Imagelist.Images.IndexOfKey(process.Id.ToString())
+                };
+                listView1.Items.Add(item);
             }
-            //this.DialogResult =  ;
             
+            listView1.LargeImageList = Imagelist;
+            listView1.SmallImageList = Imagelist;
+
+
+            listView1.Select();
         }
+ 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Console.WriteLine(allProc[listBox1.SelectedIndex].Id);
-            /*
-            foreach (Process p in allProc)
+            if (listView1.SelectedItems.Count > 0)
             {
-                string k = p.Id.ToString() + "-" + p.ProcessName;
-                if(k== listBox1.SelectedItem.ToString())
-                {
-                    //Console.WriteLine(p.Id);
-                    this.PID = p.Id;
-                    this.Close();
-                    break;
-                }
+                int index = listView1.Items.IndexOf(listView1.SelectedItems[0]);
+                this.PID = allProc[index].Id;
+                this.PNAME = allProc[index].ProcessName;
+                this.Close();
             }
-             */
-            this.PID = allProc[listBox1.SelectedIndex].Id;
-            this.PNAME = allProc[listBox1.SelectedIndex].ProcessName;
-            this.Close();
-            
+            else
+            {
+                MessageBox.Show("Get Process Error");
+            }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Enter(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.button1_Click(sender, e);
+            }
+            else
+            {
+
+            }
         }
     }
 }

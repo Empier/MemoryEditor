@@ -136,8 +136,8 @@ namespace Main
                     UInt64 startmemory = Convert.ToUInt64(textBox2.Text, 16);
                     UInt64 endmemory = Convert.ToUInt64(textBox3.Text, 16);
                     UInt32 scanvalue = 0;
-                    int Value_Size=0;
-
+                    int Value_Size =0;
+                    
                     if (Value_Type==1)
                     {
                         scanvalue=Convert.ToUInt32(textBox1.Text, 10);
@@ -155,33 +155,33 @@ namespace Main
                         
                     }
                     Console.WriteLine("Start");
-                    for (UInt32 off = 0; (startmemory + off) < endmemory; off += 1)
+                    for (UInt32 off = 0; (startmemory + off - Convert.ToUInt32(Value_Size) ) < endmemory; off += 1)
                     {
                         RPM((UInt64)PID, startmemory + off, (UInt16)Value_Size, (IntPtr)buffer);
                         //Console.WriteLine((*(UInt32*)buffer).ToString()+" "+scanvalue);
 
                         if (Value_Type != 3)
                         {
-                           
 
+                           
                             if (scanvalue == *(UInt32*)buffer)
                             {
-                                string[] row = { (startmemory + off).ToString("X"), scanvalue.ToString() };
-
-
-                                var listViewItem = new ListViewItem(row);
-
-
-                                listView1.Items.Add(listViewItem);
-
+           
+                                ListViewItem lvt = new ListViewItem();
+                                lvt.Text = string.Format("{0:X8}", (startmemory + off));
+                                lvt.SubItems.Add(scanvalue.ToString());
+                                lvt.ForeColor = Color.Green;
+                                lvt.SubItems[1].ForeColor = Color.Red;
+                                lvt.UseItemStyleForSubItems = false;
+                                listView1.Items.Add(lvt);
+                                
                             }
                         }
                         else /*string*/
                         {
                             byte *ptr = (byte *)buffer ;
                             int j = 0;
-                            // Console.WriteLine(Convert.ToString((*ptr).ToString())
-                            //     );
+                            Console.WriteLine(Convert.ToString((*ptr).ToString()));
 
                             for (int i = 0; i < textBox1.Text.Length; i++)
                             {
