@@ -53,51 +53,34 @@ namespace Main
         {
             init();
             AllocConsole();
-            
-            //printf("%d", __arglist(1234));
-            //
-            //Console.WriteLine(Convert.ToUInt64(textBox2.Text,16));
 
             ComboboxItem item = new ComboboxItem();
+            item.Text = "Byte";
+            item.Value = 2;
+
+            comboBox1.Items.Add(item);
+
+
+            item = new ComboboxItem();
             item.Text = "4 Bytes";
             item.Value = 1;
 
             comboBox1.Items.Add(item);
 
-            item = new ComboboxItem();
-            item.Text = "1 Bytes";
-            item.Value = 2;
-
-            comboBox1.Items.Add(item);
-
+            
             item = new ComboboxItem();
             item.Text = "String";
             item.Value = 3;
 
             comboBox1.Items.Add(item);
 
+            item = new ComboboxItem();
+            item.Text = "Array of bytes";
+            item.Value = 4;
+
+            comboBox1.Items.Add(item);
+
             comboBox1.SelectedIndex = 0;
-
-            //comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-
-            /*
-            listView1.View = View.Details;
-            listView1.GridLines = true;
-            listView1.FullRowSelect = true;
-            listView1.Columns.Add("Address", 80);
-            listView1.Columns.Add("Value", 70);
-            */
-            
-            //listView1.Columns.Add("Quantity", 70);
-
-
-
-
-            
-
-            // listView1.View = View.Details;
-            // listView1.GridLines = true;
-            // listView1.FullRowSelect = true;
 
         }
 
@@ -105,8 +88,17 @@ namespace Main
         {
             Process_Form processForm = new Process_Form();
             var k = processForm.ShowDialog(this);
-            PID = processForm.PID;
-            label4.Text = processForm.PNAME;
+            if (k == DialogResult.OK)
+            {
+                PID = processForm.PID;
+                label4.Text = processForm.PNAME;
+
+                button2.Enabled = true;
+                button3.Enabled = true;
+                textBox1.Enabled = true;
+                comboBox1.Enabled = true;
+
+            }
             //SuspendLayout();
         }
 
@@ -120,97 +112,115 @@ namespace Main
         {
 
             listView1.Items.Clear();
+            
             unsafe
             {
                 void* buffer = (byte*)Memory.Alloc(100);
-                
-
-                //   try
+               
                 {
-                    //IntPtr hModule = LoadLibrary("Empire.dll");
-                    //IntPtr RPMaddr = GetProcAddress((int)hModule, "RPM");
-                    //RPM ReadProcessMemory = (RPM)Marshal.GetDelegateForFunctionPointer(RPMaddr, typeof(RPM));
-                    //IntPtr WPMaddr = GetProcAddress((int)hModule, "WPM");
-                    //WPM WriteProcessMemory = (WPM)Marshal.GetDelegateForFunctionPointer(WPMaddr, typeof(WPM));
-
                     UInt64 startmemory = Convert.ToUInt64(textBox2.Text, 16);
                     UInt64 endmemory = Convert.ToUInt64(textBox3.Text, 16);
                     UInt32 scanvalue = 0;
                     int Value_Size =0;
-                    
-                    if (Value_Type==1)
-                    {
-                        scanvalue=Convert.ToUInt32(textBox1.Text, 10);
-                        Value_Size = 4;
-                    }
-                    else if(Value_Type==2)
-                    {
-                        scanvalue=Convert.ToUInt32(textBox1.Text, 10);
-                        Value_Size = 1;
-                    }
-                    else if(Value_Type==3)
-                    {
+                    uint Scan_Size = 0;
 
-                        Value_Size = textBox1.Text.Length;
-                        
+                    switch(Value_Type)
+                    {
+                        case 1:
+                            scanvalue = Convert.ToUInt32(textBox1.Text, 10);
+                            Value_Size = 4;
+                            Scan_Size = 4;
+                            break;
+                        case 2:
+                            scanvalue = Convert.ToUInt32(textBox1.Text, 10);
+                            Value_Size = 1;
+                            Scan_Size = 1;
+                            break;
+
+                        case 3:
+                            Value_Size = textBox1.Text.Length;
+                            Scan_Size = 1;
+                            break;
+
                     }
+
                     Console.WriteLine("Start");
-                    for (UInt32 off = 0; (startmemory + off - Convert.ToUInt32(Value_Size) ) < endmemory; off += 1)
+
+                    uint []saveaddr = new uint[10000];
+                    string[] savevalue = new string[10000];
+                    int idx = 0;
+                 
+                    for (UInt32 off = 0; (startmemory + off - Convert.ToUInt32(Value_Size) ) < endmemory; off += Scan_Size)
                     {
                         RPM((UInt64)PID, startmemory + off, (UInt16)Value_Size, (IntPtr)buffer);
-                        //Console.WriteLine((*(UInt32*)buffer).ToString()+" "+scanvalue);
 
-                        if (Value_Type != 3)
+                        switch(Value_Type)
                         {
-
-                           
-                            if (scanvalue == *(UInt32*)buffer)
-                            {
-           
-                                ListViewItem lvt = new ListViewItem();
-                                lvt.Text = string.Format("{0:X8}", (startmemory + off));
-                                lvt.SubItems.Add(scanvalue.ToString());
-                                lvt.ForeColor = Color.Green;
-                                lvt.SubItems[1].ForeColor = Color.Red;
-                                lvt.UseItemStyleForSubItems = false;
-                                listView1.Items.Add(lvt);
-                                
-                            }
-                        }
-                        else /*string*/
-                        {
-                            byte *ptr = (byte *)buffer ;
-                            int j = 0;
-                            Console.WriteLine(Convert.ToString((*ptr).ToString()));
-
-                            for (int i = 0; i < textBox1.Text.Length; i++)
-                            {
-                                
-                                if (Convert.ToInt32(textBox1.Text[i])==Convert.ToInt32(((byte*)ptr)[i]))
+                            case 1:
+                            case 2:
+                                if (scanvalue == *(UInt32*)buffer)
                                 {
-                                    j++;
-                                    //Console.WriteLine((startmemory+off).ToString("X")+" "+j + " " + textBox1.Text.Length);
-                                    if(j== textBox1.Text.Length)
+                                    saveaddr[idx] = Convert.ToUInt32(startmemory + off);
+                                    savevalue[idx] = scanvalue.ToString();
+                                    idx++;
+                                    if(idx>=10000)
                                     {
-                                        string[] row = { (startmemory + off).ToString("X"), textBox1.Text };
-
-                                        var listViewItem = new ListViewItem(row);
-
-                                        listView1.Items.Add(listViewItem);
+                                        MessageBox.Show("너무 많이 검색되서 중단함");
+                                        endmemory = 0;
                                     }
                                 }
-                                else
+                                break;
+
+                            case 3:
+                                byte* ptr = (byte*)buffer;
+                                int j = 0;
+                               
+                                for (int i = 0; i < textBox1.Text.Length; i++)
                                 {
-                                    break;
+
+                                    if (Convert.ToInt32(textBox1.Text[i]) == Convert.ToInt32(((byte*)ptr)[i]))
+                                    {
+                                        j++;
+                                        if (j == textBox1.Text.Length)
+                                        {
+                                            saveaddr[idx] = Convert.ToUInt32(startmemory + off);
+                                            savevalue[idx] = textBox1.Text;
+                                            idx++;
+                                            if (idx >= 10000)
+                                            {
+                                                MessageBox.Show("너무 많이 검색되서 중단함");
+                                                endmemory = 0;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
                                 }
-                            }
 
-                           
-
+                                break;
+                            case 4:
+                                break;
                         }
                     }
+                    int x = 0;
+                    for (; x<idx; x++)
+                    {
+                            ListViewItem lvt = new ListViewItem();
+                            lvt.Text = string.Format("{0:X8}", saveaddr[x]);
+                            lvt.SubItems.Add(savevalue[x]);
+                            lvt.ForeColor = Color.Green;
+                            lvt.SubItems[1].ForeColor = Color.Red;
+                            lvt.UseItemStyleForSubItems = false;
+                            listView1.Items.Add(lvt);  
+                    }
+                    label6.Text = "Found: " + x.ToString();
+
+
                     Console.WriteLine("End");
-                    Memory.Free(buffer); 
+                    Memory.Free(buffer);
+                    
                 }
                
             }
@@ -277,7 +287,21 @@ namespace Main
                 ListViewItem lvItem = items[0];
                 string addr = lvItem.SubItems[0].Text;
                 string value = lvItem.SubItems[1].Text;
-                string[] row = { "", addr, value, "de", "No Description" };
+                string type = null;
+                switch(Value_Type)
+                {
+                    case 1:
+                        type = "4 Bytes";
+                        break;
+                    case 2:
+                        type = "Byte";
+                        break;
+                    case 3:
+                        type = "Text";
+                        break;
+                }
+
+                string[] row = { "", addr, value,type , "No Description" };
 
                 listView2.Items.Add(new ListViewItem(row));
             }

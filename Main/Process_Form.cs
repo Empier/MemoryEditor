@@ -69,6 +69,7 @@ namespace Main
                 int index = listView1.Items.IndexOf(listView1.SelectedItems[0]);
                 this.PID = allProc[index].Id;
                 this.PNAME = allProc[index].ProcessName;
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
