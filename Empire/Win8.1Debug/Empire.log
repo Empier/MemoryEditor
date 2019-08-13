@@ -1,0 +1,4 @@
+﻿  Building 'Empire' with toolset 'WindowsKernelModeDriver10.0' and the 'Desktop' target platform.
+  Stamping Win8.1Debug\Empire.inf [Version] section with DriverVer=08/13/2019,22.12.28.200
+tracewpp : error wpp: (FileMapping::Open) Unable to open file 'trace.h', error code 2
+tracewpp : error wpp: (RealMain) Fatal error: CreateFile error

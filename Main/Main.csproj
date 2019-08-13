@@ -78,11 +78,20 @@
     <Compile Include="About_Form.Designer.cs">
       <DependentUpon>About_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Main_Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main_Form.Designer.cs">
       <DependentUpon>Main_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewDesc_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDesc_Form.Designer.cs">
+      <DependentUpon>NewDesc_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Process_Form.cs">
       <SubType>Form</SubType>
@@ -109,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main_Form.resx">
       <DependentUpon>Main_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDesc_Form.resx">
+      <DependentUpon>NewDesc_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Process_Form.resx">
       <DependentUpon>Process_Form.cs</DependentUpon>

@@ -1,0 +1,93 @@
+;
+; Empire.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=ASF%ManufacturerName%
+CatalogFile=Empire.cat
+DriverVer = 08/13/2019,22.12.28.200
+
+;[DestinationDirs]
+;DefaultDestDir = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+;[SourceDisksFiles]
+;Empire.sys  = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTx86
+
+[Standard.NTx86]
+%Empire.DeviceDesc%=Empire_Device, Root\Empire ; TODO: edit hw-id
+
+[Empire_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+Empire.sys
+
+
+;-------------- Service installation
+[Empire_Device.NT.Services]
+AddService = Empire,%SPSVCINST_ASSOCSERVICE%, Empire_Service_Inst
+
+; -------------- Empire driver install sections
+[Empire_Service_Inst]
+DisplayName    = %Empire.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\Empire.sys
+LoadOrderGroup = Extended Base
+
+;
+;--- Empire_Device Coinstaller installation ------
+;
+
+[DestinationDirs]
+Empire_Device_CoInstaller_CopyFiles = 11
+
+[Empire_Device.NT.CoInstallers]
+AddReg=Empire_Device_CoInstaller_AddReg
+CopyFiles=Empire_Device_CoInstaller_CopyFiles
+
+[Empire_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller01011.dll,WdfCoInstaller"
+
+[Empire_Device_CoInstaller_CopyFiles]
+WdfCoInstaller01011.dll
+
+[SourceDisksFiles]
+WdfCoInstaller01011.dll=1 ; make sure the number matches with SourceDisksNames
+Empire.sys  = 1,,
+
+[Empire_Device.NT.Wdf]
+KmdfService =  Empire, Empire_wdfsect
+[Empire_wdfsect]
+KmdfLibraryVersion = 1.11
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="" ; TODO: add ManufacturerName
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "Empire Installation Disk"
+Empire.DeviceDesc = "Empire Device"
+Empire.SVCDESC = "Empire Service"

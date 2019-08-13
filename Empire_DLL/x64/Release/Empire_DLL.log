@@ -1,3 +1,9 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
 C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (DLL.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+main.cpp(26): warning C4996: 'wcscat': This function or variable may be unsafe. Consider using wcscat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(101): note: 'wcscat' 선언을 참조하십시오.
+main.cpp(134): warning C4101: 'OutBuffer' :참조되지 않은 지역 변수입니다.
+c:\users\kang\documents\visual studio 2015\projects\memoryeditor\empire_dll\main.cpp(92): warning C4715: 'UnloadDriver': 모든 제어 경로에서 값을 반환하지는 않습니다.
+     C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\bin\Empire.lib 라이브러리 및 C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\bin\Empire.exp 개체를 생성하고 있습니다.
   Empire_DLL.vcxproj -> C:\Users\Kang\Documents\Visual Studio 2015\Projects\MemoryEditor\bin\Empire.dll
